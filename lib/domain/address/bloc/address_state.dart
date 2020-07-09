@@ -19,3 +19,5 @@ class AddressLoadedState extends AddressState {
   @override
   List<Object> get props => [addresses];
 }
+
+class AddressErrorState extends AddressState {}

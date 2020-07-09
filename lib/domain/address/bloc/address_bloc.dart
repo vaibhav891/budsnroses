@@ -11,10 +11,12 @@ part 'address_state.dart';
 class AddressBloc extends Bloc<AddressEvent, AddressState> {
   final FirestoreAddress _firestoreAddress;
 
-  AddressBloc(this._firestoreAddress);
+  AddressBloc(this._firestoreAddress) : super(AddressInitialState());
 
-  @override
-  AddressState get initialState => AddressInitialState();
+  //AddressBloc();
+
+  //@override
+  //AddressState get initialState => AddressInitialState();
 
   @override
   Stream<AddressState> mapEventToState(
@@ -25,8 +27,12 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       yield AddressLoadedState(addresses);
       //
     } else if (event is AddAddressEvent) {
-      _firestoreAddress.addAddress(event.address, event.uid);
-      yield AddressFinalState();
+      var result = await _firestoreAddress.addAddress(event.address, event.uid);
+      if (result is String) {
+        yield AddressErrorState();
+      } else {
+        yield AddressFinalState();
+      }
     }
   }
 }

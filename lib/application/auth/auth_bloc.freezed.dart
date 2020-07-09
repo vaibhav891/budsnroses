@@ -253,16 +253,10 @@ abstract class SignedOut implements AuthEvent {
 class _$AuthStateTearOff {
   const _$AuthStateTearOff();
 
-  Initial initial() {
-    return const Initial();
-  }
-
-  Authenticated authenticated() {
-    return const Authenticated();
-  }
-
-  Unauthenticated unauthenticated() {
-    return const Unauthenticated();
+  _AuthState call({@required String userId}) {
+    return _AuthState(
+      userId: userId,
+    );
   }
 }
 
@@ -270,37 +264,15 @@ class _$AuthStateTearOff {
 const $AuthState = _$AuthStateTearOff();
 
 mixin _$AuthState {
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    @required Result orElse(),
-  });
+  String get userId;
+
+  $AuthStateCopyWith<AuthState> get copyWith;
 }
 
 abstract class $AuthStateCopyWith<$Res> {
   factory $AuthStateCopyWith(AuthState value, $Res Function(AuthState) then) =
       _$AuthStateCopyWithImpl<$Res>;
+  $Res call({String userId});
 }
 
 class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
@@ -309,301 +281,84 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
   final AuthState _value;
   // ignore: unused_field
   final $Res Function(AuthState) _then;
-}
-
-abstract class $InitialCopyWith<$Res> {
-  factory $InitialCopyWith(Initial value, $Res Function(Initial) then) =
-      _$InitialCopyWithImpl<$Res>;
-}
-
-class _$InitialCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
-    implements $InitialCopyWith<$Res> {
-  _$InitialCopyWithImpl(Initial _value, $Res Function(Initial) _then)
-      : super(_value, (v) => _then(v as Initial));
 
   @override
-  Initial get _value => super._value as Initial;
+  $Res call({
+    Object userId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userId: userId == freezed ? _value.userId : userId as String,
+    ));
+  }
 }
 
-class _$Initial with DiagnosticableTreeMixin implements Initial {
-  const _$Initial();
+abstract class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
+  factory _$AuthStateCopyWith(
+          _AuthState value, $Res Function(_AuthState) then) =
+      __$AuthStateCopyWithImpl<$Res>;
+  @override
+  $Res call({String userId});
+}
+
+class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
+    implements _$AuthStateCopyWith<$Res> {
+  __$AuthStateCopyWithImpl(_AuthState _value, $Res Function(_AuthState) _then)
+      : super(_value, (v) => _then(v as _AuthState));
+
+  @override
+  _AuthState get _value => super._value as _AuthState;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+  }) {
+    return _then(_AuthState(
+      userId: userId == freezed ? _value.userId : userId as String,
+    ));
+  }
+}
+
+class _$_AuthState with DiagnosticableTreeMixin implements _AuthState {
+  const _$_AuthState({@required this.userId}) : assert(userId != null);
+
+  @override
+  final String userId;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState.initial()';
+    return 'AuthState(userId: $userId)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'AuthState.initial'));
+    properties
+      ..add(DiagnosticsProperty('type', 'AuthState'))
+      ..add(DiagnosticsProperty('userId', userId));
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Initial);
+    return identical(this, other) ||
+        (other is _AuthState &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userId);
 
   @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
+  _$AuthStateCopyWith<_AuthState> get copyWith =>
+      __$AuthStateCopyWithImpl<_AuthState>(this, _$identity);
 }
 
-abstract class Initial implements AuthState {
-  const factory Initial() = _$Initial;
-}
-
-abstract class $AuthenticatedCopyWith<$Res> {
-  factory $AuthenticatedCopyWith(
-          Authenticated value, $Res Function(Authenticated) then) =
-      _$AuthenticatedCopyWithImpl<$Res>;
-}
-
-class _$AuthenticatedCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
-    implements $AuthenticatedCopyWith<$Res> {
-  _$AuthenticatedCopyWithImpl(
-      Authenticated _value, $Res Function(Authenticated) _then)
-      : super(_value, (v) => _then(v as Authenticated));
+abstract class _AuthState implements AuthState {
+  const factory _AuthState({@required String userId}) = _$_AuthState;
 
   @override
-  Authenticated get _value => super._value as Authenticated;
-}
-
-class _$Authenticated with DiagnosticableTreeMixin implements Authenticated {
-  const _$Authenticated();
-
+  String get userId;
   @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState.authenticated()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'AuthState.authenticated'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Authenticated);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return authenticated();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (authenticated != null) {
-      return authenticated();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return authenticated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (authenticated != null) {
-      return authenticated(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Authenticated implements AuthState {
-  const factory Authenticated() = _$Authenticated;
-}
-
-abstract class $UnauthenticatedCopyWith<$Res> {
-  factory $UnauthenticatedCopyWith(
-          Unauthenticated value, $Res Function(Unauthenticated) then) =
-      _$UnauthenticatedCopyWithImpl<$Res>;
-}
-
-class _$UnauthenticatedCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
-    implements $UnauthenticatedCopyWith<$Res> {
-  _$UnauthenticatedCopyWithImpl(
-      Unauthenticated _value, $Res Function(Unauthenticated) _then)
-      : super(_value, (v) => _then(v as Unauthenticated));
-
-  @override
-  Unauthenticated get _value => super._value as Unauthenticated;
-}
-
-class _$Unauthenticated
-    with DiagnosticableTreeMixin
-    implements Unauthenticated {
-  const _$Unauthenticated();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'AuthState.unauthenticated()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties..add(DiagnosticsProperty('type', 'AuthState.unauthenticated'));
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is Unauthenticated);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return unauthenticated();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (unauthenticated != null) {
-      return unauthenticated();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(Initial value),
-    @required Result authenticated(Authenticated value),
-    @required Result unauthenticated(Unauthenticated value),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    return unauthenticated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(Initial value),
-    Result authenticated(Authenticated value),
-    Result unauthenticated(Unauthenticated value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (unauthenticated != null) {
-      return unauthenticated(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Unauthenticated implements AuthState {
-  const factory Unauthenticated() = _$Unauthenticated;
+  _$AuthStateCopyWith<_AuthState> get copyWith;
 }

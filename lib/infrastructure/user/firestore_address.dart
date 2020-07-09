@@ -5,11 +5,16 @@ class FirestoreAddress {
   final CollectionReference userCollection =
       Firestore.instance.collection('user');
 
-  Future<void> addAddress(Address address, String uid) async {
-    await userCollection
-        .document(uid)
-        .collection('addresses')
-        .add(address.toMap());
+  Future addAddress(Address address, String uid) async {
+    try {
+      await userCollection
+          .document(uid)
+          .collection('addresses')
+          .add(address.toMap());
+      return true;
+    } catch (e) {
+      return e.toString();
+    }
   }
 
   Future<List<Address>> fetchAddresses(String uid) async {

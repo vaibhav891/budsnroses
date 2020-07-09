@@ -19,7 +19,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   FirebaseAuthFacade(this._firebaseAuth, this._googleSignIn);
 
   @override
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword(
+  Future<Either<AuthFailure, User>> registerWithEmailAndPassword(
       {@required EmailAddress emailAddress,
       @required Password password}) async {
     // check for error
@@ -32,7 +32,9 @@ class FirebaseAuthFacade implements IAuthFacade {
         email: emailAddressStr,
         password: passwordStr,
       );
-      return right(unit);
+      //User user; //=
+      final firebaseUser = await _firebaseAuth.currentUser();
+      return right(firebaseUser.toDomain());
     } on PlatformException catch (e) {
       if (e.code == 'ERROR_EMAIL_ALREADY_IN_USE') {
         return left(const AuthFailure.emailAlreadyInUse());
@@ -43,7 +45,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword(
+  Future<Either<AuthFailure, User>> signInWithEmailAndPassword(
       {@required EmailAddress emailAddress,
       @required Password password}) async {
     final emailAddressStr = emailAddress.getOrCrash();
@@ -55,7 +57,9 @@ class FirebaseAuthFacade implements IAuthFacade {
         email: emailAddressStr,
         password: passwordStr,
       );
-      return right(unit);
+      //User user; //=
+      final firebaseUser = await _firebaseAuth.currentUser();
+      return right(firebaseUser.toDomain());
     } on PlatformException catch (e) {
       if (e.code == 'ERROR_INVALID_EMAIL' || e.code == 'ERROR_WRONG_PASSWORD') {
         return left(const AuthFailure.invalidEmailnPasswordCombination());
@@ -66,7 +70,7 @@ class FirebaseAuthFacade implements IAuthFacade {
   }
 
   @override
-  Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
+  Future<Either<AuthFailure, User>> signInWithGoogle() async {
     try {
       final googleUser = await _googleSignIn.signIn();
 
@@ -81,19 +85,22 @@ class FirebaseAuthFacade implements IAuthFacade {
           accessToken: googleAuthentication.accessToken);
 
       await _firebaseAuth.signInWithCredential(authCredential);
-      return right(unit);
+      //User user; //=
+      final firebaseUser = await _firebaseAuth.currentUser();
+      return right(firebaseUser.toDomain());
     } on PlatformException catch (_) {
       throw const AuthFailure.serverError();
     }
   }
 
   @override
-  Future<void> signOut() async{
+  Future<void> signOut() async {
     Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
   }
 
   @override
-  Future<Option<User>> signedInUser() {
-    return _firebaseAuth.currentUser().then((firebaseUser) => optionOf(firebaseUser?.toDomain()));
+  Future<Option<User>> signedInUser() async {
+    final firebaseUser = await _firebaseAuth.currentUser();
+    return optionOf(firebaseUser?.toDomain());
   }
 }

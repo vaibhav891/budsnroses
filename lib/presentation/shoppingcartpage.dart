@@ -1,4 +1,5 @@
 import 'package:budsnroses/application/auth/auth_bloc.dart';
+import 'package:budsnroses/presentation/login.dart';
 import 'package:budsnroses/presentation/myappbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,20 +30,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             (element.quantity * double.parse(element.item.itemPrice)));
 
     return BlocListener<AuthBloc, AuthState>(
-      listener: (BuildContext context, AuthState state) {
-        state.map(
-            initial: null,
-            authenticated: (e) {
-              print('I am auth');
-              isLoggedIn = true;
-            },
-            unauthenticated: (e) {
-              print('I am Unauth');
-              isLoggedIn = false;
-            });
+      listener: (context, state) {
+        print(isLoggedIn);
+        if (state.userId != '' && state.userId != null) {
+          isLoggedIn = true;
+        }
       },
       child: Scaffold(
-        appBar: MyAppBar(),
+        appBar: MyAppBar("My Shopping Cart"),
         body: Column(
           children: <Widget>[
             ListView(
@@ -67,16 +62,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             //if already logged in then show checkout page
             if (isLoggedIn) {
               print('Welcome to checkout page');
-              // TODO show choose address page
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => AddressPage()));
+                builder: (BuildContext context) {
+                  return AddressPage(
+                    userId: context.bloc<AuthBloc>().state.userId,
+                  );
+                },
+              ));
             } else {
               print('Welcome to login page');
-              // TODO show login page - currently showing address page for testing
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => AddressPage()));
+                  builder: (BuildContext context) => LoginPage()));
             }
-            // if not logged in then show login page
           },
           child: Text('Proceed to Checkout...'),
         ),

@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends AppBar {
-  MyAppBar({
+  final String titleText;
+  MyAppBar(
+    this.titleText, {
     Key key,
   }) : super(
           key: key,
@@ -16,6 +18,6 @@ class MyAppBar extends AppBar {
               onPressed: () {},
             )
           ],
-          title: Text('Buds N Roses'),
+          title: Text(titleText),
         );
 }

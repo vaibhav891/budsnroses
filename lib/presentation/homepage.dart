@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:budsnroses/application/auth/auth_bloc.dart';
 import 'package:budsnroses/domain/shoppingcart.dart';
 import 'package:budsnroses/presentation/carousel.dart';
 import 'package:budsnroses/presentation/productpage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'myappbar.dart';
 
@@ -14,7 +16,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: MyAppBar(),
+        appBar: MyAppBar("Buds N Roses"),
         drawer: Container(
           width: MediaQuery.of(context).size.width * 0.3,
           color: Colors.white,
@@ -33,6 +35,13 @@ class HomePage extends StatelessWidget {
               Text('Profile'),
               SizedBox(height: 10),
               Text('Contact Us'),
+              SizedBox(height: 10),
+              InkWell(
+                onTap: () {
+                  BlocProvider.of<AuthBloc>(context).add(SignedOut());
+                },
+                child: Text('Sign Out'),
+              ),
             ]),
           ),
         ),

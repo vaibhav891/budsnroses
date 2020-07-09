@@ -20,10 +20,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc(
     this._authFacade,
-  );
+  ) : super(AuthState.initial());
 
-  @override
-  AuthState get initialState => const AuthState.unauthenticated();
+  //@override
+  //AuthState get initialState => const AuthState.initial();
 
   @override
   Stream<AuthState> mapEventToState(
@@ -33,8 +33,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       authCheckRequested: (e) async* {
         final user = await _authFacade.signedInUser();
         yield user.fold(
-          () => const AuthState.unauthenticated(),
-          (_) => const AuthState.authenticated(),
+          () => AuthState.unauthenticated(),
+          (user) =>
+              AuthState.authenticated(user.uid.value.fold((l) => '', (r) => r)),
         );
 
         // yield _authFacade.signedInUser().then((value) => value.fold(
@@ -44,7 +45,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       },
       signedOut: (e) async* {
         await _authFacade.signOut();
-        yield const AuthState.unauthenticated();
+        yield AuthState.unauthenticated();
       },
     );
   }

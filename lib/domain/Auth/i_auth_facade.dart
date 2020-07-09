@@ -7,18 +7,13 @@ import 'package:flutter/foundation.dart';
 abstract class IAuthFacade {
   Future<Option<User>> signedInUser();
 
-  Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
-    @required EmailAddress emailAddress,
-    @required Password password
-  });
+  Future<Either<AuthFailure, User>> registerWithEmailAndPassword(
+      {@required EmailAddress emailAddress, @required Password password});
 
-  Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
-    @required EmailAddress emailAddress,
-    @required Password password
-  });
+  Future<Either<AuthFailure, User>> signInWithEmailAndPassword(
+      {@required EmailAddress emailAddress, @required Password password});
 
-  Future<Either<AuthFailure, Unit>> signInWithGoogle();
+  Future<Either<AuthFailure, User>> signInWithGoogle();
 
   Future<void> signOut();
-
 }

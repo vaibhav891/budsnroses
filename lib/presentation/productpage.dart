@@ -14,7 +14,7 @@ class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: MyAppBar("Product Page"),
       body: SingleChildScrollView(
         child: Column(
           children: [
